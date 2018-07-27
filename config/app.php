@@ -167,6 +167,8 @@ return [
         /*
          * Package Service Providers...
          */
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Hhxsv5\LaravelS\Illuminate\LaravelSServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -178,9 +180,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /**
-         * custom
+         * Custom Service Providers
          */
-        Barryvdh\Debugbar\ServiceProvider::class
+        
     ],
 
     /*

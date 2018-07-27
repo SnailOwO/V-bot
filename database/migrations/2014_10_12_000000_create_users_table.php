@@ -13,13 +13,20 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('user', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->string('name',32)->default('')->comment('用户名称');
+            $table->string('password',35)->default('')->comment('密码：md5格式');  
+            $table->string('email',64)->default('')->comment('邮箱地址');
+            $table->char('phone',11)->default('')->comment('手机号(仅支持大陆)');
+            $table->text('app_id')->default('')->comment('WX APP ID');
+            $table->string('open_id',16)->default('')->comment('WX OPEN ID');
+            $table->unsignedTinyInteger('role')->default(0)->comment('0: 游客,1:普通用户,2: 风纪委员,3: admin.其余的为自定义');
+            $table->unsignedTinyInteger('join_type')->default(0)->comment('0: 注册,1: activeCode加入');
+            $table->unsignedTinyInteger('custom_account')->default(0)->comment('0: 未更改,1: 更改完毕');
+            $table->nullableTimestamps('created_at')->comment('创建时间');
+            $table->nullableTimestamps('updated_at')->comment('更新时间');
+            $table->nullableTimestamps('last_login')->comment('上次登录');
         });
     }
 

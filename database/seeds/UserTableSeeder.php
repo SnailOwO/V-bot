@@ -13,7 +13,7 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('users')->delete();
+        DB::table('user')->delete();
         for($i = 0;$i < 10;$i++) {
             User::create([
                 'name' => 'username',
