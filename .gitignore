@@ -3,8 +3,8 @@
 /public/storage
 /storage/*.key
 /vendor
-composer.json
-composer.lock
+/composer.json
+/composer.lock
 /.idea
 /.vagrant
 Homestead.json
