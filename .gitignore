@@ -3,7 +3,6 @@
 /public/storage
 /storage/*.key
 /vendor
-/composer.json
 /composer.lock
 /.idea
 /.vagrant
