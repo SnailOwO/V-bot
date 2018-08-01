@@ -169,7 +169,7 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
         Hhxsv5\LaravelS\Illuminate\LaravelSServiceProvider::class,
-
+        Spatie\Permission\PermissionServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -231,7 +231,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class
     ],
 
 ];
