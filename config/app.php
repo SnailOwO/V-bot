@@ -170,6 +170,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Hhxsv5\LaravelS\Illuminate\LaravelSServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         /*
          * Application Service Providers...
          */
