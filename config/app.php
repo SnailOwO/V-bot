@@ -234,10 +234,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-<<<<<<< HEAD
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class
-=======
->>>>>>> 92cf0eded223d8f4370ae286b26fcb05e0daa68c
     ],
 
 ];
