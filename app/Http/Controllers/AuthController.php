@@ -7,13 +7,15 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    
     // login method
     public function login(Request $request) {
+		echo 'cc';
+		//$credentials  = $request->only(['username', 'password','method']);
+		//echo '<pre>';dd($credentials);
         $rules = [
             'username'   => [
-                'required',
-                'exists:Snail,SnailOwO',   //todo:判断用户名是否重复
+                'required'
+                //'exists:Snail,SnailOwO',   //todo:判断用户名是否重复
             ],
             'password' => 'required|string|min:6|max:32',
             'method' => 'required|between:normal,code'
