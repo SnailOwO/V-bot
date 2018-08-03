@@ -13,22 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
-/*Route::prefix('auth')->group(function($router) {
-    $router->post('login', 'AuthController@login');
-    $router->post('logout', 'AuthController@logout');
-});*/
-
 //Route::post('login', 'AuthController@login');
 
-Route::post('login', function(Request $request)
-{
-    return $request->only(['username', 'password','method']);
-});
-
-/*Route::middleware('refresh.token', ['except' => ['login,logout']])
-        ->group(function ($router) {
+Route::group(['refresh.token',['except' => ['login,logout']]],function ($router) {
     // login
     $router->post('login', 'AuthController@login');
     //logout
     $router->post('logout', 'AuthController@logout');
-});*/
+});

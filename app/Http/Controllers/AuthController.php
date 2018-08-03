@@ -9,9 +9,7 @@ class AuthController extends Controller
 {
     // login method
     public function login(Request $request) {
-		echo 'cc';
-		//$credentials  = $request->only(['username', 'password','method']);
-		//echo '<pre>';dd($credentials);
+		//return $request->only(['username', 'password','method']);
         $rules = [
             'username'   => [
                 'required'
@@ -20,7 +18,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:6|max:32',
             'method' => 'required|between:normal,code'
         ];
-        $params = $this->validate($request, $rules);
+        //$params = $this->validate($request, $rules);
         $credentials  = $request->only(['username', 'password','method']);
         $login_method = $credentials['method'];
         unset($credentials['method']);
@@ -35,6 +33,9 @@ class AuthController extends Controller
         if($login_method == 'code') {   
 
         } 
+		return response()->json([
+			'msg' => 'success'
+		]);
     }
 
     
