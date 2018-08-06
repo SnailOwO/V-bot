@@ -3,39 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Events\DefaultCodeLogin;
+use App\Events\DefaultAccountLogin;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
     // login method
     public function login(Request $request) {
-		//return $request->only(['username', 'password','method']);
+        $credentials  = $request->only(['method']);
+        $is_account = $credentials['method'];
         $rules = [
-            'username'   => [
-                'required'
-                //'exists:Snail,SnailOwO',   //todo:判断用户名是否重复
-            ],
-            'password' => 'required|string|min:6|max:32',
-            'method' => 'required|between:normal,code'
+            'method' => 'required|boolean'
         ];
-        //$params = $this->validate($request, $rules);
-        $credentials  = $request->only(['username', 'password','method']);
-        $login_method = $credentials['method'];
-        unset($credentials['method']);
-        //用户名、密码登录
-        if($login_method == 'normal') {
-            if (! $token = auth('api')->attempt($credentials)) {
-                return response()->json(['error' => 'Unauthorized'], 401);
-            }
-            return $this->respondWithToken($token);
-        }
-        //邀请码登录
-        if($login_method == 'code') {   
+        $this->validate($request, $rules);
+        // 根据前台用户的选择方式，触发对应的登录方式。
+        return $is_account ? event(new DefaultAccountLogin($request)) : event(new DefaultCodeLogin($request));
+        // //用户名、密码登录
+        // if(!$login_method) {
+        //     if (! $token = auth('api')->attempt($credentials)) {
+        //         return response()->json(['error' => 'Unauthorized'], 401);
+        //     }
+        //     return $this->respondWithToken($token);
+        // } else {   //邀请码登录
 
-        } 
-		return response()->json([
-			'msg' => 'success'
-		]);
+        // }
     }
 
     
