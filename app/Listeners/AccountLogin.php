@@ -2,7 +2,9 @@
 
 namespace App\Listeners;
 
+use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;  
 use App\Events\DefaultAccountLogin;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -26,6 +28,12 @@ class AccountLogin
      */
     public function handle(DefaultAccountLogin $event)
     {
+        $response_ary = array(
+            'back' => false,
+            'msg' => '',
+            'code' => 422,
+            'data' => ''
+        );
         $rules = [
             'username'   => [
                 'required'
@@ -33,9 +41,20 @@ class AccountLogin
             ],
             'password' => 'required|string|min:6|max:32',
         ];
-        $this->validate($event->request, $rules);
-        return response()->json([
-			'msg' => 'account success'
-		]);
+        $credentials  = $event->request->only(['username', 'password']);
+        $validate_result = customValidate($credentials, $rules);
+        if($validate_result) {
+            $response_ary['back'] = true;
+            $response_ary['msg'] = $validate_result;
+            return $response_ary;
+        }
+        if (!$token = auth('api')->attempt($credentials)) {
+            $response_ary['back'] = true;
+            $response_ary['msg'] = 'Unauthorized';
+            $response_ary['code'] = 401;
+            return $response_ary;
+        }
+        $response_ary['data'] = $token;
+        return $response_ary;
     }
 }
