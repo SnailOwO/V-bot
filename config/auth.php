@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'api',
-        'passwords' => 'user',
+        'passwords' => 'users',
     ],
 
     /*
@@ -38,12 +38,12 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'user',
+            'provider' => 'users',
         ],
         
         'api' => [
             'driver' => 'jwt',
-            'provider' => 'user',
+            'provider' => 'users',
         ],
     ],
 
@@ -65,9 +65,10 @@ return [
     */
 
     'providers' => [
-        'user' => [
+        'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+            //'table' => 'user_list', //  修改默认的users表
         ],
 
         // 'users' => [
@@ -92,7 +93,7 @@ return [
     */
 
     'passwords' => [
-        'user' => [
+        'users' => [
             'provider' => 'user',
             'table' => 'password_resets',
             'expire' => 60,

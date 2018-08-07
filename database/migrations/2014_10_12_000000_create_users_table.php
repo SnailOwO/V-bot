@@ -15,8 +15,8 @@ class CreateUsersTable extends Migration
     {
         Schema::create('user', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',32)->default('')->comment('用户名称');
-            $table->string('password',35)->default('')->comment('密码：md5格式');  
+            $table->string('username',32)->default('')->comment('用户名称');
+            $table->string('password',255)->default('')->comment('密码：md5格式');  
             $table->string('email',64)->default('')->comment('邮箱地址');
             $table->char('phone',11)->default('')->comment('手机号(仅支持大陆)');
             $table->text('app_id')->nullable()->comment('WX APP ID');
