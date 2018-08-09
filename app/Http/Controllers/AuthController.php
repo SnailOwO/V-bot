@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Events\DefaultCodeLogin;
 use App\Events\DefaultAccountLogin;
@@ -60,5 +61,20 @@ class AuthController extends Controller {
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+    }
+
+    // register
+    public function register(Request $request) {
+        $rules = [
+            'account' => 'required|max:32',
+            'password' => 'required|confirmed|regex:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/',
+            'password_confirmation' => 'required',
+            'email' => 'required|email|exists:user.email',
+            'extra' => 'nullable|regex:/^1\d{10}$/'
+        ];
+        $method_result = customValidate($request->all(),$rules);
+        if($method_result) {
+            return failResponse($method_result);
+        }
     }
 }

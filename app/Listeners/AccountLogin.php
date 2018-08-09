@@ -36,8 +36,8 @@ class AccountLogin
         );
         $rules = [
             'username'   => [
-                'required'
-                //'exists:Snail,SnailOwO',   //todo:判断用户名是否重复
+                'required',
+                'exists:user:Snail,SnailOwO|not_in:admin',   
             ],
             'password' => 'required|string|min:6|max:32',
         ];
