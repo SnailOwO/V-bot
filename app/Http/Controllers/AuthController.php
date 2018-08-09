@@ -29,13 +29,22 @@ class AuthController extends Controller {
         if($login_result['back']) {
             return customResponse($login_result['msg'],array(),$login_result['code']);
         }
+        // 登录成功后，返回token + userinfo
+        $user_info = auth()->user();
         return customResponse('Login Success',
                 [
                     'token' => $login_result['data'],
-                    'user_info' => ''
+                    'user_info' => [
+                        'name' => $user_info['username'],
+                        'role' => $user_info['role'],
+                        'custom_account' => $user_info['custom_account'],
+                        'join_type' => $user_info['join_type'],
+                    ]
                 ]
         );
     }
+
+    //todo: 验证是否需要销毁token
 
     /**
      * Get the token array structure.

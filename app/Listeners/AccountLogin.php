@@ -50,7 +50,7 @@ class AccountLogin
         }
         if (!$token = auth('api')->attempt($credentials)) {
             $response_ary['back'] = true;
-            $response_ary['msg'] = 'Unauthorized';
+            $response_ary['msg'] = ts('custom.loginFailed');
             $response_ary['code'] = 401;
             return $response_ary;
         }
