@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\DefaultCodeLogin' => [
             'App\Listeners\CodeLogin',   // 邀请码登录
         ],
+        'Illuminate\Database\Events\QueryExecuted' => [
+            'App\Listeners\QueryListener',
+        ],
     ];
 
     /**

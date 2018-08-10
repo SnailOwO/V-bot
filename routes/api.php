@@ -15,9 +15,13 @@ use Illuminate\Http\Request;
 
 //Route::post('login', 'AuthController@login');
 
-Route::group(['refresh.token',['except' => ['login,logout']]],function ($router) {
+Route::group(['refresh.token',['except' => ['login,logout','register']]],function ($router) {
     // login
     $router->post('login', 'AuthController@login');
+    
     //logout
     $router->post('logout', 'AuthController@logout');
+    
+    // register
+    $router->post('register', 'AuthController@register');
 });

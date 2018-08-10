@@ -11,6 +11,15 @@ class User extends Authenticatable implements JWTSubject {
     
     protected $table = 'user';
 
+    protected $fillable = [
+                            'username',
+                            'password',
+                            'email',
+                            'phone',
+                            'ip',
+                            'last_login',
+                          ];
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -27,9 +36,5 @@ class User extends Authenticatable implements JWTSubject {
      */
     public function getJWTCustomClaims() {
         return [];
-    }
-
-    public function insert($user_data) {
-        return $this->create($user_data);
     }
 }
