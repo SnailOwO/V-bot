@@ -56,12 +56,12 @@ class AccountLogin
             // 是否在允许的IP白名单中
             $response_ary['back'] = false;
             $response_ary['msg'] = ts('custom.loginSuccess');
+            $response_ary['token'] = $token;
             $response_ary['user_info'] = $user_info;
             return $response_ary;
         } else {
             $response_ary['msg'] = ts('custom.loginFailed');
             $response_ary['code'] = 401;
-            $response_ary['token'] = $token;
         }
         return $response_ary;
     }
