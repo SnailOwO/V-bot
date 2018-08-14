@@ -39,4 +39,37 @@ if(!function_exists('ts')){
         return $trans;
     }
 }
-  
+
+if(!function_exists('changeWhereAry')){   //仅仅用于生成where数组，其他情况还需自己调用orwhere whereIn
+    function changeWhereAry($whereAry,$structAry) {
+        $ary = array();
+        if(!empty($whereAry)) {
+            foreach($whereAry as $key => $val) {
+                switch($structAry[$key]) {
+                    case 'like':
+                        array_push($ary,[$key,$structAry[$key],'%'. $val .'%']); 
+                        break;
+                    case '>':
+                    case '>=':
+                    case '<':
+                    case '<=':
+                    case '!=':
+                    case '<>':
+                       array_push($ary,[$key,$structAry[$key],$val]); 
+                       break;
+                    case '=':
+                       array_push($ary,[$key,$val]); 
+                       break;
+                    case 'bw':
+                        if(count($val) == 2) {   //防止多传
+                            array_push($ary,[$key,'>=',current($val)]); 
+                            array_push($ary,[$key,'<=',end($val)]);
+                        }
+                        break;
+                }
+            }
+            
+        }
+        return $ary;
+    }
+}

@@ -13,15 +13,24 @@ use Illuminate\Http\Request;
 |
 */
 
-//Route::post('login', 'AuthController@login');
+// Route::post('roleList', 'Role\RoleController@getList');
 
-Route::group(['refresh.token',['except' => ['login,logout','register']]],function ($router) {
+// 无需token验证
+Route::group([],function ($router) {  
     // login
     $router->post('login', 'AuthController@login');
-    
     //logout
     $router->post('logout', 'AuthController@logout');
-    
     // register
     $router->post('register', 'AuthController@register');
+    $router->post('roleList', 'Role\RoleController@getList');
 });
+
+// 需要token验证
+// Route::group(['middleware' =>'tokenOperate'],function ($router) {   
+//     // role list
+//     $router->post('roleList', 'Role\RoleController@getList');
+// });
+
+
+
