@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use \Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -55,8 +57,12 @@ class Handler extends ExceptionHandler
             return failResponse(ts('custom.paramError'),400);
         }
         // 用户认证的异常，我们需要返回 401 的 http code 和错误信息
-        if ($exception instanceof UnauthorizedHttpException) {
+        if ($exception instanceof UnauthorizedHttpException || $exception instanceof TokenBlacklistedException) {
             return failResponse(ts('custom.expiredToken'),401);
+        }
+        // 数据库异常
+        if(env('APP_ENV', 'production') != 'local' && $exception instanceof QueryException) {
+            return failResponse(ts('custom.databaseError'),400);
         }
 
         return parent::render($request, $exception);

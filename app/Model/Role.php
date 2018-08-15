@@ -8,7 +8,7 @@ class Role extends Model
 {
     protected $table = 'roles';
 
-    private $limit = 10;
+    public $limit = 10;
 
     protected $fillable = [
         'name',

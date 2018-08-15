@@ -12,8 +12,8 @@ class RoleController extends Controller {
 
     private $roleList = [
         'name' => 'like',
-        'create_at' => 'bw',
-        'update_at' => 'bw',
+        'created_at' => 'bw',
+        'updated_at' => 'bw',
     ];
 
 
@@ -22,18 +22,33 @@ class RoleController extends Controller {
     }
 
     public function getList(Request $request) {
-        $data = $request->only(['name','create_at','update_at','page']);
+        $data = $request->only(['name','created_at','updated_at','page']);
         $rules = [
             'name' => 'nullable',
-            'create_at.*' => 'nullable|date_format:Y-m-d H:i:s',
-            'update_at.*' => 'nullable|date_format:Y-m-d H:i:s',
+            'created_at.*' => 'nullable|date_format:Y-m-d H:i:s',
+            'updated_at.*' => 'nullable|date_format:Y-m-d H:i:s',
             'page' => 'required|integer',
         ];
         $list_result = customValidate($data,$rules);
         if($list_result) {
             return failResponse($list_result);
         }
-        $count = 0;
+        $operation_list = array(
+            'count' => 0,
+            'roleAry' => []
+        );
+        $search_key_ary = [
+            'page' => $data['page'] ?? 1,
+            'where' => [],
+        ];
         $whereAry = changeWhereAry($data,$this->roleList);
+        $search_key_ary['where'] = $whereAry;
+        $count = $this->roleRepository->getRoleNum($search_key_ary);
+        if($count) {
+            $roleAry = $this->roleRepository->getRole($search_key_ary);
+            $operation_list['count'] = $count;
+            $operation_list['roleAry'] = $roleAry;
+        }
+        return $operation_list;
     }   
 }

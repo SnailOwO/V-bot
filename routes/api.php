@@ -23,14 +23,13 @@ Route::group([],function ($router) {
     $router->post('logout', 'AuthController@logout');
     // register
     $router->post('register', 'AuthController@register');
-    $router->post('roleList', 'Role\RoleController@getList');
 });
 
 // 需要token验证
-// Route::group(['middleware' =>'tokenOperate'],function ($router) {   
-//     // role list
-//     $router->post('roleList', 'Role\RoleController@getList');
-// });
+Route::group(['middleware' =>'token'],function ($router) {   
+    // role list
+    $router->post('roleList', 'Role\RoleController@getList');
+});
 
 
 

@@ -1,5 +1,4 @@
 <?php
-
 if (!function_exists('customResponse')) {
     function customResponse($errors,$data = array(),$code = 200) {
         return response()->json([
@@ -45,27 +44,33 @@ if(!function_exists('changeWhereAry')){   //仅仅用于生成where数组，其�
         $ary = array();
         if(!empty($whereAry)) {
             foreach($whereAry as $key => $val) {
-                switch($structAry[$key]) {
-                    case 'like':
-                        array_push($ary,[$key,$structAry[$key],'%'. $val .'%']); 
-                        break;
-                    case '>':
-                    case '>=':
-                    case '<':
-                    case '<=':
-                    case '!=':
-                    case '<>':
-                       array_push($ary,[$key,$structAry[$key],$val]); 
-                       break;
-                    case '=':
-                       array_push($ary,[$key,$val]); 
-                       break;
-                    case 'bw':
-                        if(count($val) == 2) {   //防止多传
-                            array_push($ary,[$key,'>=',current($val)]); 
-                            array_push($ary,[$key,'<=',end($val)]);
-                        }
-                        break;
+                if(isset($structAry[$key])) {
+                    switch($structAry[$key]) {
+                        case 'like':
+                            array_push($ary,[$key,$structAry[$key],'%'. $val .'%']); 
+                            break;
+                        case '>':
+                        case '<':
+                        case '>=':
+                        case '<=':
+                        case '!=':
+                        case '<>':
+                           array_push($ary,[$key,$structAry[$key],$val]); 
+                           break;
+                        case '=':
+                           array_push($ary,[$key,$val]); 
+                           break;
+                        case 'bw':
+                            $val = array_filter($val);   //过滤空字符
+                            if(count($val) == 1) {   //防止多传
+                                array_push($ary,[$key,current($val)]); 
+                            }
+                            if(count($val) == 2) {   //防止多传
+                                array_push($ary,[$key,'>=',current($val)]); 
+                                array_push($ary,[$key,'<=',end($val)]);
+                            }
+                            break;
+                    }
                 }
             }
             
