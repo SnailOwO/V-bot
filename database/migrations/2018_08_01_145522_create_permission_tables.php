@@ -1,5 +1,6 @@
 <?php
 
+use App\Model\Role;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -71,6 +72,26 @@ class CreatePermissionTables extends Migration
 
             app('cache')->forget('spatie.permission.cache');
         });
+
+        // default role record
+        $role_ary = [
+            [
+                'name' => '超级管理员',
+                'guard_name' => 'admin',
+                'created_at' => date('Y-m-d H:i:s',time()),
+                'updated_at' => date('Y-m-d H:i:s',time())
+            ],
+            [
+                'name' => '风纪委员',
+                'guard_name' => 'discipline',
+                'created_at' => date('Y-m-d H:i:s',time()),
+                'updated_at' => date('Y-m-d H:i:s',time())
+            ]
+        ];
+        Role::createMany($role_ary);
+
+        // default permisson record
+        
     }
 
     /**

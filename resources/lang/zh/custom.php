@@ -13,5 +13,5 @@ return [
     'paramError' => 'Token参数错误',
     'expiredToken' => 'Token验证失败,请重新登录',
     /* database */
-    'databaseError' => '哦豁,系统繁忙！',
+    'databaseError' => '哦豁,系统繁忙,稍候再试吧！',
 ];
