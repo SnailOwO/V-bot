@@ -1,5 +1,7 @@
 <?php
 
+use App\User;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -28,6 +30,18 @@ class CreateUsersTable extends Migration
             $table->timestamp('last_login')->comment('上次登录');
 			$table->timestamps();
         });
+        // 默认值
+        $user_ary = [
+            'username' => 'Snail',
+            'password' => '$2y$10$gCCqQV87tRGdgKvAJ8D/b.ZerGjH/q2DxJCBb4mkcOiAAs.D2hJiq',
+            'email' => '892333187@qq.com',
+            'phone' => '15366196173',
+            'role' => '3',
+            'custom_account' => '1'
+        ];
+        $user = new User;
+        $user->fill($user_ary);
+        $user->save();
     }
 
     /**
