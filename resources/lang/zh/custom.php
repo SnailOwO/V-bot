@@ -9,6 +9,7 @@ return [
     'registerSuccess' => '注册成功，欢迎加入V-bot',
     /*  role  */ 
     'dateParamIllegal' => ':attribute日期参数不合法',
+    'operateSuccess' => '操作成功~',
     /* token  */
     'paramError' => 'Token参数错误',
     'expiredToken' => 'Token验证失败,请重新登录',

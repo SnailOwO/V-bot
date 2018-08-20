@@ -11,8 +11,7 @@ trait BaseRepository
      * @param  $input
      * @return User
      */
-    public function store($input)
-    {
+    public function store($input) {    // model 会常驻内存中
         return $this->save($this->model, $input);
     }
 
@@ -23,8 +22,7 @@ trait BaseRepository
      * @param  $input
      * @return mixed
      */
-    public function save($model, $input)
-    {
+    public function save($model, $input) {
         $model->fill($input);
 
         $model->save();
@@ -32,6 +30,9 @@ trait BaseRepository
         return $model;
     }
 
+    public function create($data) {
+        return $this->model->create($data);
+    }
     /**
      * Get one record without draft scope
      *

@@ -16,11 +16,11 @@ class RoleController extends Controller {
         'updated_at' => 'bw',
     ];
 
-
     public function __construct(RoleRepository $roleRepository) {
         $this->roleRepository = $roleRepository;
     }
 
+    // show list
     public function getList(Request $request) {
         $data = $request->only(['name','created_at','updated_at','page']);
         $rules = [
@@ -51,4 +51,52 @@ class RoleController extends Controller {
         }
         return $operation_list;
     }   
+
+    // add
+    public function addRole(Request $request) {
+        $role_data = $request->only(['name']);
+        $rules = [
+            'name' => 'required|unique:roles,name'
+        ];
+        $add_result = customValidate($role_data,$rules);
+        if($add_result) {
+            return failResponse($add_result);
+        }
+        $role_data['guard_name']= 'api';
+        $this->roleRepository->create($role_data);
+        $role_data['created_at']= date('Y-m-d H:i:s');
+        $role_data['updated_at']= date('Y-m-d H:i:s');
+        return customResponse(ts('custom.operateSuccess'),$role_data,201);
+    }
+
+    // edit
+    public function editRole(Request $request) {
+        $role_data = $request->only(['id','name']);
+        $rules = [
+            'id' => 'required|Integer',
+            'name' => 'required|unique:roles,name'
+        ];
+        $add_result = customValidate($role_data,$rules);
+        if($add_result) {
+            return failResponse($add_result);
+        }
+        $id = $role_data['id'];
+        unset($role_data['id']);
+        $this->roleRepository->update($id,$role_data);
+        return customResponse(ts('custom.operateSuccess'),$role_data,201);
+    }
+
+    // delete
+    public function delRole(Request $request) {
+        $role_data = $request->only(['id']);
+        $rules = [
+            'id' => 'required|Integer',
+        ];
+        $add_result = customValidate($role_data,$rules);
+        if($add_result) {
+            return failResponse($add_result);
+        }
+        $this->roleRepository->destroy($role_data);
+        return customResponse(ts('custom.operateSuccess'),$role_data,204);
+    }
 }

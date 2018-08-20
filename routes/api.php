@@ -27,8 +27,15 @@ Route::group([],function ($router) {
 
 // 需要token验证
 Route::group(['middleware' =>'token'],function ($router) {   
+    // role部分是已经写好的，就暂时不做更改
     // role list
     $router->post('roleList', 'Role\RoleController@getList');
+    // add role 
+    $router->post('addRole', 'Role\RoleController@addRole');
+    // edit role 
+    $router->put('editRole', 'Role\RoleController@editRole');
+    // delete role 
+    $router->delete('delRole', 'Role\RoleController@delRole');
 });
 
 

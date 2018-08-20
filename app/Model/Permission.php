@@ -1,14 +1,11 @@
 <?php
-
-namespace App\Model;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model {
+class Permission extends Model {
     
     protected $table = 'roles';
-
-    public $limit = 10;
 
     protected $fillable = [
         'name',
