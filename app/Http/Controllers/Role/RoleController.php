@@ -63,10 +63,9 @@ class RoleController extends Controller {
             return failResponse($add_result);
         }
         $role_data['guard_name']= 'api';
-        $this->roleRepository->create($role_data);
-        $role_data['created_at']= date('Y-m-d H:i:s');
-        $role_data['updated_at']= date('Y-m-d H:i:s');
-        return customResponse(ts('custom.operateSuccess'),$role_data,201);
+        $insert_data = $this->roleRepository->create($role_data);
+        unset($role_data);
+        return customResponse(ts('custom.operateSuccess'),$insert_data,201);
     }
 
     // edit
@@ -88,15 +87,15 @@ class RoleController extends Controller {
 
     // delete
     public function delRole(Request $request) {
-        $role_data = $request->only(['id']);
+        $role_data = $request->only(['ids']);
         $rules = [
-            'id' => 'required|Integer',
+            'ids.*' => 'required|Integer',
         ];
         $add_result = customValidate($role_data,$rules);
         if($add_result) {
             return failResponse($add_result);
         }
-        $this->roleRepository->destroy($role_data);
-        return customResponse(ts('custom.operateSuccess'),$role_data,204);
+        $this->roleRepository->destroyByIds($role_data['ids']);
+        return customResponse(ts('custom.operateSuccess'),[],204);
     }
 }

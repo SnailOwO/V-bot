@@ -61,7 +61,7 @@ class Handler extends ExceptionHandler
             return failResponse(ts('custom.expiredToken'),401);
         }
         // 数据库异常
-        if(env('APP_ENV', 'production') != 'local' && $exception instanceof QueryException) {
+        if(env('APP_ENV', 'production') != 'production' && $exception instanceof QueryException) {   // local
             return failResponse(ts('custom.databaseError'),400);
         }
 

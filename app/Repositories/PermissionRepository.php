@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories;
 
-use App\Model\Role;
+use App\Model\Permission;
 
 class PermissionRepository {
      
@@ -9,7 +9,7 @@ class PermissionRepository {
     
     protected $model;
 
-    public function __construct(Role $role) {
-        $this->model = $role;
+    public function __construct(Permission $permission) {
+        $this->model = $permission;
     }
 }
