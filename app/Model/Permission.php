@@ -9,3 +9,5 @@ class Permission extends Model {
  
     protected $fillable = [];   // 目前不允许，自定义添加
 }
+
+

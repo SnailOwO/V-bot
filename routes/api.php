@@ -37,8 +37,10 @@ Route::group(['middleware' =>'token'],function ($router) {
     // delete role 
     $router->delete('delRole', 'Role\RoleController@delRole');
 
-    // permission
+    // role permission 
     $router->get('rolePermission', 'Permission\PermissionController@getRolePermission');
+    // add、edit permission
+    $router->post('permissionOperate', 'Permission\PermissionController@addOrEditPermission');
 });
 
 

@@ -1,6 +1,7 @@
 <?php
-
 namespace App\Repositories;
+
+use Illuminate\Support\Facades\DB;
 
 trait BaseRepository {
 
@@ -31,6 +32,10 @@ trait BaseRepository {
 
     public function create($data) {
         return $this->model->create($data);
+    }
+
+    public function insertBatch($table,Array $data) {
+        return DB::table($table)->insert($data);
     }
 
     /**
