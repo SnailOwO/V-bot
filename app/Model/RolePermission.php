@@ -23,8 +23,8 @@ class RolePermission extends Model {
     }
 
     /* 编辑权限：
-     * 1. 事务下，删除所有用户权限，在批量插入 (√)
-     * 2. 对比，多的新增，少的删除
+     * 1. 事务下，删除所有用户权限，在批量插入 
+     * 2. 对比，多的新增，少的删除 (√)   //todo:
      */
     public function editRolePermission($role_whereAry, Array $data) {
         // 开启事务
@@ -41,5 +41,14 @@ class RolePermission extends Model {
         // 提交事务
         DB::commit();
         return true;
+    }
+
+    // 联表查询出，role当前的权限
+    public function getRolePermission($role_id,$param = array('*')) {
+        return DB::table('permissions as p')
+            ->rightJoin('role_has_permissions as rp', 'p.id', '=', 'rp.permission_id')
+            ->where('rp.role_id',$role_id)
+            ->get($param)
+            ->toArray();
     }
 }

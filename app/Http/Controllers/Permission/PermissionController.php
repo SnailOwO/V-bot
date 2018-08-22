@@ -25,10 +25,10 @@ class PermissionController extends Controller {
 
     // 权限列表
     public function permissionList() {
-        
+        return $this->permission->getAllData();
     }
 
-    // 根据role id 查询具体的角色
+    // 根据role id 查询具体的角色权限
     public function getRolePermission(Request $request) {
         $param_ary = $request->only(['role_id']);
         $rules = [
@@ -38,14 +38,7 @@ class PermissionController extends Controller {
         if($result) {
             return failResponse($result);
         }
-        $whereAry = changeWhereAry($param_ary,$this->roleHasPermission);
-        $role_has_permission = $this->rolePermission->getRecordByWhere($whereAry);
-        if(empty($role_has_permission)) {   // 说明,第一次设置角色权限
-            $all_permission = $this->permission->all();
-            return $all_permission;
-        }
-        // 已经设置过
-        return $role_has_permission;
+        return $this->rolePermission->getThisModel()->getRolePermission($param_ary['role_id'],['id']);
     }
 
     // 新增、编辑角色权限
@@ -64,9 +57,7 @@ class PermissionController extends Controller {
             return failResponse($result);
         }
         $whereAry = changeWhereAry($param_ary,$this->roleHasPermission);
-        $role_has_permission = $this->rolePermission->getRecordByWhere($whereAry);
-        // 组装批量插入的数据数组
-        //$assemble_ary = array_flip(array_fill_keys($param_ary['permission_ary'],'permission_id'));
+        $role_has_permission = $this->rolePermission->getThisModel()->getRolePermission($param_ary['role_id']);
         $assemble_ary = array();
         foreach($param_ary['permission_ary'] as $val) {
             $assemble_ary[] = [
