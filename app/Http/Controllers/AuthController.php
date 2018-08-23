@@ -37,6 +37,7 @@ class AuthController extends Controller {
         if($login_result['back']) {
             return customResponse($login_result['msg'],array(),$login_result['code']);
         }
+        $menu_list = [];
         // 登录成功后，返回token + user info
         return customResponse($login_result['msg'],[
                     'token' => $login_result['token'],
@@ -45,7 +46,10 @@ class AuthController extends Controller {
         );
     }
 
-    //todo: 验证是否需要销毁token
+    //todo: 需要销毁token
+    public function logout() {
+
+    }
 
     /**
      * Get the token array structure.

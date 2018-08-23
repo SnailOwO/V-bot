@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Role;
 
-use App\Model\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\RoleRepository;
@@ -71,6 +70,9 @@ class RoleController extends Controller {
     // edit
     public function editRole(Request $request) {
         $role_data = $request->only(['id','name']);
+        if($role_data['id'] == 1) {   // todo: 使用自定义validate
+            return failResponse(ts('custom.superUserCanNotOperate'));
+        }
         $rules = [
             'id' => 'required|Integer',
             'name' => 'required|unique:roles,name'
@@ -95,6 +97,12 @@ class RoleController extends Controller {
         if($add_result) {
             return failResponse($add_result);
         }
+        // 手动过滤id为1的超级管理员（目前暂时只认id 1位超级管理员）
+        $role_data['ids'] = array_where($role_data['ids'], function ($value, $key) {
+            if($value != 1) {
+                return $value;
+            }
+        });
         $this->roleRepository->destroyByIds($role_data['ids']);
         return customResponse(ts('custom.operateSuccess'),[],204);
     }

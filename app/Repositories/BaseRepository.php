@@ -89,9 +89,9 @@ trait BaseRepository {
     }
 
 
-    public function getRecordByWhere($where) {
+    public function getRecordByWhere($where,$param = array('*')) {
         return $this->model->where($where)
-                        ->get()
+                        ->get($param)
                         ->toArray();
     }
 
@@ -117,7 +117,7 @@ trait BaseRepository {
     //     }
     // }
 
-    public function getThisModel() {
+    public function getModel() {
         return $this->model;
     }
 

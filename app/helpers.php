@@ -39,7 +39,7 @@ if(!function_exists('ts')){
     }
 }
 
-if(!function_exists('changeWhereAry')){   //仅仅用于生成where数组，其他情况还需自己调用orwhere whereIn
+if(!function_exists('changeWhereAry')){   //仅仅用于生成where数组,其他情况还需自己调用orwhere whereIn
     function changeWhereAry($whereAry,$structAry) {
         $ary = array();
         if(!empty($whereAry)) {
@@ -47,7 +47,13 @@ if(!function_exists('changeWhereAry')){   //仅仅用于生成where数组，其�
                 if(isset($structAry[$key])) {
                     switch($structAry[$key]) {
                         case 'like':
-                            array_push($ary,[$key,$structAry[$key],'%'. $val .'%']); 
+                            if(is_array($val)) {
+                                foreach($val as $k => $v) {
+                                    array_push($ary,[$key,$structAry[$key],'%'. $v .'%']);  
+                                }
+                            } else {
+                                array_push($ary,[$key,$structAry[$key],'%'. $val .'%']); 
+                            }
                             break;
                         case '>':
                         case '<':
@@ -55,12 +61,19 @@ if(!function_exists('changeWhereAry')){   //仅仅用于生成where数组，其�
                         case '<=':
                         case '!=':
                         case '<>':
-                           array_push($ary,[$key,$structAry[$key],$val]); 
-                           break;
                         case '=':
-                           array_push($ary,[$key,$val]); 
+                            if(is_array($val)) {
+                                foreach($val as $k => $v) {
+                                    array_push($ary,[$key,$structAry[$key],$v]); 
+                                }
+                            } else {
+                                array_push($ary,[$key,$structAry[$key],$val]); 
+                            }
                            break;
                         case 'bw':
+                            if(is_array($val)) {   // between 暂不支持 array
+                                break;
+                            } 
                             $val = array_filter($val);   //过滤空字符
                             if(count($val) == 1) {   //防止多传
                                 array_push($ary,[$key,current($val)]); 
@@ -78,3 +91,5 @@ if(!function_exists('changeWhereAry')){   //仅仅用于生成where数组，其�
         return $ary;
     }
 }
+
+

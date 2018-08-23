@@ -10,6 +10,7 @@ return [
     /*  role  */ 
     'dateParamIllegal' => ':attribute日期参数不合法',
     'operateSuccess' => '操作成功~',
+    'superUserCanNotOperate' => '你操作尼玛呢？',
     /* token  */
     'paramError' => 'Token参数错误',
     'expiredToken' => 'Token验证失败,请重新登录',
