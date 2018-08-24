@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use App\Model\RolePermission;
 use App\Events\DefaultCodeLogin;
 use App\Events\DefaultAccountLogin;
 use App\Repositories\UserRepository;
@@ -11,8 +12,12 @@ class AuthController extends Controller {
 
     protected $userRepository;
 
-    public function __construct(UserRepository $userRepository) {
+    protected $rolePermission;
+
+    public function __construct(UserRepository $userRepository,RolePermission $rolePermission) {
         $this->userRepository = $userRepository;
+        
+        $this->rolePermission = $rolePermission;
     }
 
     /**
@@ -37,11 +42,13 @@ class AuthController extends Controller {
         if($login_result['back']) {
             return customResponse($login_result['msg'],array(),$login_result['code']);
         }
-        $menu_list = [];
-        // 登录成功后，返回token + user info
+        // 用户菜单
+        $user_menu = $this->rolePermission->getRoleMenu($login_result['user_info']['role']);
+        // 登录成功后，返回token + user info + menu list
         return customResponse($login_result['msg'],[
                     'token' => $login_result['token'],
-                    'user_info' => json_encode($login_result['user_info'])
+                    'user_info' => json_encode($login_result['user_info']),
+                    'user_menu' => json_encode($user_menu),
                 ]
         );
     }

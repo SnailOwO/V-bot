@@ -58,4 +58,48 @@ class RolePermission extends Model {
             ->get($param)
             ->toArray();
     }
+
+    // menu list is_show：1
+    public function getMenuList($role_id, $is_object = false) {
+        $query = DB::table('permissions as p')
+            ->leftJoin('role_has_permissions as rp', 'p.id', '=', 'rp.permission_id')
+            ->select('p.*')
+            ->where('rp.role_id', $role_id)
+            ->where('p.is_show', 1);
+        return $is_object ? $query : $query->get()
+                                        ->toArray();
+    }
+
+    //  get pid:0 menu
+    public function getParentPermission($role_id) {
+        return DB::table('permissions as p')
+            ->leftJoin('role_has_permissions as rp', 'p.id', '=', 'rp.permission_id')
+            ->select('p.pid')
+            ->where('rp.role_id', $role_id)
+            ->groupBy('p.pid')
+            ->get()
+            ->toArray();
+    }
+
+    // 获取用户的role menu
+    // ps:父级菜单若没有加入到permission表中，自动查询出来
+    public function getRoleMenu($role_id) {
+        // self menu 
+        // is_show 1
+        $self = $this->getMenuList($role_id,true);
+        // parent menu
+        $sub_query = DB::table('permissions as p')
+            ->leftJoin('role_has_permissions as rp', 'p.id', '=', 'rp.permission_id')
+            ->select('p.pid')
+            ->where('rp.role_id', $role_id)
+            ->groupBy('p.pid');
+
+        return DB::table(DB::raw("({$sub_query->toSql()}) as has"))
+            ->mergeBindings($sub_query)
+            ->join('permissions as parent', 'parent.id', '=', 'has.pid')
+            ->select('parent.*')
+            ->union($self)
+            ->get()
+            ->toArray();
+    }
 }

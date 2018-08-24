@@ -43,6 +43,8 @@ Route::group(['middleware' =>'token'],function ($router) {
     $router->get('rolePermission', 'Permission\PermissionController@getRolePermission');
     // add、edit permission
     $router->post('permissionOperate', 'Permission\PermissionController@addOrEditPermission');
+    // user menu list
+    $router->get('userMenuList', 'Permission\PermissionController@getUserMenu');
 });
 
 

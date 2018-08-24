@@ -112,6 +112,19 @@ class PermissionController extends Controller
         return customResponse(ts('custom.operateSuccess'), [], 201);
     }
 
+    // 获取用户menu 
+    public function getUserMenu(Request $request) {
+        $param_ary = $request->only(['role_id']);
+        $rules = [
+            'role_id' => 'required|Integer|exists:roles,id',
+        ];
+        $result = customValidate($param_ary, $rules);
+        if ($result) {
+            return failResponse($result);
+        }
+        return $this->rolePermission->getModel()->getRoleMenu($param_ary['role_id']);
+    }
+
     // 按旨拼装insert data (可以考虑封装成公用的)
     private function fillInsertData($role_id, $permission_ary) {
         $assemble_ary = [];
