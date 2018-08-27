@@ -59,7 +59,7 @@ class PermissionController extends Controller
         if ($result) {
             return failResponse($result);
         }
-        return $this->rolePermission->getModel()->getRolePermission($param_ary['role_id'], ['id']);
+        return menuFlip($this->rolePermission->getModel()->getRolePermission($param_ary['role_id'], ['id']));
     }
 
     // 新增、编辑角色权限

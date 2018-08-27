@@ -43,7 +43,7 @@ class AuthController extends Controller {
             return customResponse($login_result['msg'],array(),$login_result['code']);
         }
         // 用户菜单
-        $user_menu = $this->rolePermission->getRoleMenu($login_result['user_info']['role']);
+        $user_menu = menuFlip($this->rolePermission->getRoleMenu($login_result['user_info']['role']));
         // 登录成功后，返回token + user info + menu list
         return customResponse($login_result['msg'],[
                     'token' => $login_result['token'],

@@ -86,10 +86,22 @@ if(!function_exists('changeWhereAry')){   //仅仅用于生成where数组,其他
                     }
                 }
             }
-            
         }
         return $ary;
     }
 }
 
+if(!function_exists('menuFlip')){   //懒得再UNION menu菜单的时候，再次SELECT一哈
+    function menuFlip($data) {
+        $ary = [];
+        if(!empty($data)) {
+           foreach($data as $val) {
+               $ary[$val->id] = (array)$val;
+           }
+		   ksort($ary);
+           $ary = array_values($ary); 
+        }
+        return $ary;
+    }
+}
 
