@@ -26,7 +26,7 @@ Route::group([],function ($router) {
 });
 
 // 需要token验证
-Route::group(['middleware' =>'token'],function ($router) {   
+Route::group(['middleware' =>['token','permission']],function ($router) {   
     // role部分是已经写好的，就暂时不做更改
     // role list
     $router->post('roleList', 'Role\RoleController@getList');
